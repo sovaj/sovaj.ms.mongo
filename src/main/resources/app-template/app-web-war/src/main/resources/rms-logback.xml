@@ -1,0 +1,51 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--Automatically reloading configuration file upon modification; default scan = once per minute -->
+<configuration scan="true">
+
+    <!-- buffer -->
+    <!--<appender name="BUFFER" class="ch.qos.logback.core.read.CyclicBufferAppender" />-->
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>%d{dd MMM yyyy;HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="FILE_ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>./logs/rms.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>./logs/rms-%d{yyyy-MM-dd}.%i.log
+            </fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- or whenever the file size reaches 100MB -->
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{dd MMM yyyy;HH:mm:ss.SSS} [%thread] %-5level %logger{5} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <!--<logger level="ERROR" name="org.apache.cxf.jaxrs.impl.WebApplicationExceptionMapper" />-->
+
+    <!-- Log MongoDB Queries -->
+    <logger level="WARN" name="org.springframework.data.mongodb.core.MongoTemplate" />
+
+    <!-- Log outside call -->
+    <logger level="DEBUG" name="${package}.app.dao.impl.LoggingClientFilter" />
+
+    <root level="WARN">
+        <appender-ref ref="FILE_ROLLING"/>
+        <!--<appender-ref ref="BUFFER"/>-->
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+</configuration>

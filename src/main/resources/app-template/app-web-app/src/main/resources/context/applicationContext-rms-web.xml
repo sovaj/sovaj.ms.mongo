@@ -1,0 +1,16 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans classpath:org/springframework/beans/factory/xml/spring-beans-3.0.xsd
+            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+            http://www.springframework.org/schema/context classpath:org/springframework/context/config/spring-context-3.2.xsd">
+
+    <util:properties id="webProperties" location="classpath:rms-web.properties" />
+    <context:property-placeholder properties-ref="webProperties" ignore-unresolvable="true" />
+
+    <import resource="classpath:context/applicationContext-service.xml"/>
+</beans>

@@ -1,0 +1,17 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans classpath:org/springframework/beans/factory/xml/spring-beans-3.0.xsd
+       		http://www.springframework.org/schema/context classpath:org/springframework/context/config/spring-context-3.2.xsd">
+
+    <context:annotation-config/>
+
+    <import resource="module/cxf.xml"/>
+    <import resource="module/endpoints.xml"/>
+    <import resource="module/properties.xml"/>
+
+    <import resource="classpath:context/applicationContext-rms-web.xml"/>
+</beans>

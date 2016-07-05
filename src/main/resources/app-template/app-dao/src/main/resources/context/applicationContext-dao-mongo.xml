@@ -1,0 +1,57 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans classpath:org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+        http://www.springframework.org/schema/data/mongo classpath:org/springframework/data/mongodb/config/spring-mongo-1.5.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+
+    <context:annotation-config/>
+    <context:component-scan base-package="${package}.app.dao.mongo.impl" />
+
+    <util:properties id="daoMongoProperties" location="classpath:${artifactId}.properties" />
+    <context:property-placeholder properties-ref="daoMongoProperties" ignore-unresolvable="true" />
+
+    <mongo:mongo id="mongo" replica-set="${symbol_dollar}{rms.mongodb.replica.set}" />
+    <mongo:db-factory id="mongoDbFactory"  mongo-ref="mongo" dbname="${symbol_dollar}{rms.mongodb.dbName}" />
+
+    <bean id="mongoMappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
+
+    <bean name="mongoConverter" class="org.springframework.data.mongodb.core.convert.MappingMongoConverter" >
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+        <constructor-arg name="mappingContext" ref="mongoMappingContext"/>
+        <property name="customConversions">
+            <bean class="org.springframework.data.mongodb.core.convert.CustomConversions">
+                <constructor-arg name="converters">
+                    <list>
+                        <bean class="${package}.app.dao.mongo.converter.LocalDateTimeToDateConverter" />
+                        <bean class="${package}.app.dao.mongo.converter.LocalTimeToDateConverter" />
+                        <bean class="${package}.app.dao.mongo.converter.LocalDateToDateConverter" />
+                        <bean class="${package}.app.dao.mongo.converter.DateToLocalDateTimeConverter" />
+                        <bean class="${package}.app.dao.mongo.converter.DateToLocalTimeConverter" />
+                        <bean class="${package}.app.dao.mongo.converter.DateToLocalDateConverter" />
+                    </list>
+                </constructor-arg>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+        <constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+        <constructor-arg name="mongoConverter" ref="mongoConverter" />
+    </bean>
+
+    <bean name="mongoGridFsTemplate"
+          class="org.springframework.data.mongodb.gridfs.GridFsTemplate">
+        <constructor-arg ref="mongoDbFactory" />
+        <constructor-arg ref="mongoConverter" />
+    </bean>
+
+</beans>

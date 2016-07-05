@@ -1,0 +1,22 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans classpath:org/springframework/beans/factory/xml/spring-beans-3.1.xsd
+            http://www.springframework.org/schema/util classpath:org/springframework/beans/factory/xml/spring-util-3.1.xsd">
+
+    <util:list id="locations">
+        <value>classpath:app-mongo.properties</value>
+    </util:list>
+
+    <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations" ref="locations" />
+        <property name="ignoreUnresolvablePlaceholders" value="true" />
+    </bean>
+
+    <bean id="rmsProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+        <property name="locations" ref="locations" />
+    </bean>
+</beans>
