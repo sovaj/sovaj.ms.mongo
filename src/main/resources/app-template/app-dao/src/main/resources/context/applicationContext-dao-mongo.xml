@@ -14,7 +14,7 @@
 
 
     <context:annotation-config/>
-    <context:component-scan base-package="${package}.app.dao.mongo.impl" />
+    <context:component-scan base-package="${package}.dao.mongo.impl" />
 
     <util:properties id="daoMongoProperties" location="classpath:${projectTrigram}-dao-mongo.properties" />
     <context:property-placeholder properties-ref="daoMongoProperties" ignore-unresolvable="true" />
@@ -31,12 +31,12 @@
             <bean class="org.springframework.data.mongodb.core.convert.CustomConversions">
                 <constructor-arg name="converters">
                     <list>
-                        <bean class="${package}.app.dao.mongo.converter.LocalDateTimeToDateConverter" />
-                        <bean class="${package}.app.dao.mongo.converter.LocalTimeToDateConverter" />
-                        <bean class="${package}.app.dao.mongo.converter.LocalDateToDateConverter" />
-                        <bean class="${package}.app.dao.mongo.converter.DateToLocalDateTimeConverter" />
-                        <bean class="${package}.app.dao.mongo.converter.DateToLocalTimeConverter" />
-                        <bean class="${package}.app.dao.mongo.converter.DateToLocalDateConverter" />
+                        <bean class="${package}.dao.mongo.converter.LocalDateTimeToDateConverter" />
+                        <bean class="${package}.dao.mongo.converter.LocalTimeToDateConverter" />
+                        <bean class="${package}.dao.mongo.converter.LocalDateToDateConverter" />
+                        <bean class="${package}.dao.mongo.converter.DateToLocalDateTimeConverter" />
+                        <bean class="${package}.dao.mongo.converter.DateToLocalTimeConverter" />
+                        <bean class="${package}.dao.mongo.converter.DateToLocalDateConverter" />
                     </list>
                 </constructor-arg>
             </bean>

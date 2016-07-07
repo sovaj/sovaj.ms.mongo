@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.app.dao.mongo.converter;
+package ${package}.dao.mongo.converter;
 
 import java.time.Instant;
 import java.time.LocalDateTime;

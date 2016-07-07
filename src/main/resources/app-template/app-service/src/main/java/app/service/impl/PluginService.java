@@ -1,11 +1,11 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.app.service.impl;
+package ${package}.service.impl;
 
 import java.util.List;
-import ${package}.app.domain.Plugin;
-import ${package}.app.dao.mongo.impl.PluginDAO;
+import ${package}.domain.Plugin;
+import ${package}.dao.mongo.impl.PluginDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

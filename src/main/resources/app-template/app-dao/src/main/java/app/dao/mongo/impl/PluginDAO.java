@@ -1,9 +1,9 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.app.dao.mongo.impl;
+package ${package}.dao.mongo.impl;
 
-import ${package}.app.domain.Plugin;
+import ${package}.domain.Plugin;
 import org.springframework.stereotype.Repository;
 
 /**

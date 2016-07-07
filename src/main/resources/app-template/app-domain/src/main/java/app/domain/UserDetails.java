@@ -1,7 +1,7 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.app.domain;
+package ${package}.domain;
 
 import java.util.Arrays;
 import java.util.Collection;

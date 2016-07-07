@@ -1,10 +1,10 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.app.domain;
+package ${package}.domain;
 
-import ${package}.app.domain.enumeration.ActivityAction;
-import ${package}.app.domain.enumeration.ActivityType;
+import ${package}.domain.enumeration.ActivityAction;
+import ${package}.domain.enumeration.ActivityType;
 
 /**
  *

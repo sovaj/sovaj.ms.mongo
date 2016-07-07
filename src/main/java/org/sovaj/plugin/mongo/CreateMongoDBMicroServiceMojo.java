@@ -85,6 +85,7 @@ public class CreateMongoDBMicroServiceMojo extends AbstractMojo {
         context.put("version", projectVersion);
         context.put("xsdFileName", xsdFileName);
         context.put("package", projectPackage);
+        context.put("name", projectName);
         /*  first, get and initialize an engine  */
         VelocityEngine ve = new VelocityEngine();
         ve.init();
@@ -114,7 +115,10 @@ public class CreateMongoDBMicroServiceMojo extends AbstractMojo {
                 }
 
                 FileInputStream inputFileInputStream = new FileInputStream(inputFile);
-                String finalFileName = fileName.substring(12).replaceAll("app-", projectTrigram + "-");
+                String finalFileName = fileName.substring(12).replaceAll("app-", projectTrigram + "-")
+                        .replace(projectTrigram + "-web-app", projectTrigram + "-web-ppp")
+                        .replaceAll("app", getFolderFromPackage())
+                        .replace(projectTrigram + "-web-ppp", projectTrigram + "-web-app");
                 File outputFile = new File(outputFolder + File.separator + finalFileName);
                 new File(outputFile.getParent()).mkdirs();
                 getLog().info(outputFile.getAbsolutePath());
@@ -205,6 +209,10 @@ public class CreateMongoDBMicroServiceMojo extends AbstractMojo {
             fileWriter.write(String.format("package=%1s\n", projectPackage));
             fileWriter.flush();
         }
+    }
+
+    private String getFolderFromPackage() {
+        return projectPackage.replaceAll("\\.", "/");
     }
 
 }

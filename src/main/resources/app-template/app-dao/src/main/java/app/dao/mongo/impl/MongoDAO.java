@@ -1,11 +1,11 @@
 #set( $symbol_pound = '#' )
 #set( $symbol_dollar = '$' )
 #set( $symbol_escape = '\' )
-package ${package}.app.dao.mongo.impl;
+package ${package}.dao.mongo.impl;
 
 import java.util.Date;
 import java.util.List;
-import ${package}.app.domain.BusinessObject;
+import ${package}.domain.BusinessObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
