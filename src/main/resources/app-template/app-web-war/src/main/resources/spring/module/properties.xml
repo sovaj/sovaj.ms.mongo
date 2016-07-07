@@ -8,7 +8,7 @@
             http://www.springframework.org/schema/util classpath:org/springframework/beans/factory/xml/spring-util-3.1.xsd">
 
     <util:list id="locations">
-        <value>classpath:app-mongo.properties</value>
+        <value>classpath:${projectTrigram}-dao-mongo.properties</value>
     </util:list>
 
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -16,7 +16,7 @@
         <property name="ignoreUnresolvablePlaceholders" value="true" />
     </bean>
 
-    <bean id="rmsProperties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <bean id="${projectTrigram}Properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
         <property name="locations" ref="locations" />
     </bean>
 </beans>

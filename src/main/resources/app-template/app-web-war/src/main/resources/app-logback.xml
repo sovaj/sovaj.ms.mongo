@@ -18,10 +18,10 @@
     </appender>
 
     <appender name="FILE_ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>./logs/rms.log</file>
+        <file>./logs/${projectTrigram}.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- rollover daily -->
-            <fileNamePattern>./logs/rms-%d{yyyy-MM-dd}.%i.log
+            <fileNamePattern>./logs/${projectTrigram}-%d{yyyy-MM-dd}.%i.log
             </fileNamePattern>
             <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
                 <!-- or whenever the file size reaches 100MB -->

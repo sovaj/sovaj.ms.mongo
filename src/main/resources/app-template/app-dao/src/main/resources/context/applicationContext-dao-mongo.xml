@@ -16,11 +16,11 @@
     <context:annotation-config/>
     <context:component-scan base-package="${package}.app.dao.mongo.impl" />
 
-    <util:properties id="daoMongoProperties" location="classpath:${artifactId}.properties" />
+    <util:properties id="daoMongoProperties" location="classpath:${projectTrigram}-dao-mongo.properties" />
     <context:property-placeholder properties-ref="daoMongoProperties" ignore-unresolvable="true" />
 
-    <mongo:mongo id="mongo" replica-set="${symbol_dollar}{rms.mongodb.replica.set}" />
-    <mongo:db-factory id="mongoDbFactory"  mongo-ref="mongo" dbname="${symbol_dollar}{rms.mongodb.dbName}" />
+    <mongo:mongo id="mongo" replica-set="${symbol_dollar}{mongodb.replica.set}" />
+    <mongo:db-factory id="mongoDbFactory"  mongo-ref="mongo" dbname="${symbol_dollar}{mongodb.dbName}" />
 
     <bean id="mongoMappingContext" class="org.springframework.data.mongodb.core.mapping.MongoMappingContext" />
 

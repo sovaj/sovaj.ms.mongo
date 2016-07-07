@@ -13,5 +13,5 @@
     <import resource="module/endpoints.xml"/>
     <import resource="module/properties.xml"/>
 
-    <import resource="classpath:context/applicationContext-rms-web.xml"/>
+    <import resource="classpath:context/applicationContext-web.xml"/>
 </beans>

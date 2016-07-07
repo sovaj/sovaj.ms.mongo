@@ -4,29 +4,24 @@
 
     <parent>
         <groupId>${groupId}</groupId>
-        <artifactId>${rootArtifactId}</artifactId>
+        <artifactId>${projectTrigram}-parent</artifactId>
         <version>${version}</version>
     </parent>
 
     <groupId>${groupId}</groupId>
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>${projectTrigram}-service</artifactId>
     <version>${version}</version>
 
     <name>${project.artifactId} ${project.packaging}</name>
 
     <dependencies>
-
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-commons</artifactId>
+            <artifactId>${projectTrigram}-domain</artifactId>
         </dependency>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-domain</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${groupId}</groupId>
-            <artifactId>app-dao</artifactId>
+            <artifactId>${projectTrigram}-dao</artifactId>
         </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>

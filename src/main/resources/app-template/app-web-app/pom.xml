@@ -4,12 +4,12 @@
 
     <parent>
         <groupId>${groupId}</groupId>
-        <artifactId>${rootArtifactId}</artifactId>
+        <artifactId>${projectTrigram}-parent</artifactId>
         <version>${version}</version>
     </parent>
 
     <groupId>${groupId}</groupId>
-    <artifactId>${artifactId}</artifactId>
+    <artifactId>${projectTrigram}-web-app</artifactId>
     <version>${version}</version>
 
     <name>${project.artifactId} ${project.packaging}</name>
@@ -17,11 +17,11 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-domain</artifactId>
+            <artifactId>${projectTrigram}-domain</artifactId>
         </dependency>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>app-service</artifactId>
+            <artifactId>${projectTrigram}-service</artifactId>
         </dependency>
         <dependency>
             <groupId>com.jayway.restassured</groupId>
@@ -32,6 +32,12 @@
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <!-- Javax -->
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
 
         <!-- CXF -->

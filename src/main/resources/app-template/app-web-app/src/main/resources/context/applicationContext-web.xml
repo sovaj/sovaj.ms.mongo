@@ -9,7 +9,7 @@
             http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
             http://www.springframework.org/schema/context classpath:org/springframework/context/config/spring-context-3.2.xsd">
 
-    <util:properties id="webProperties" location="classpath:rms-web.properties" />
+    <util:properties id="webProperties" location="classpath:${projectTrigram}-web.properties" />
     <context:property-placeholder properties-ref="webProperties" ignore-unresolvable="true" />
 
     <import resource="classpath:context/applicationContext-service.xml"/>

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>${groupId}</groupId>
-    <artifactId>${projectTrigram}-${artifactId}</artifactId>
+    <artifactId>${projectTrigram}-parent</artifactId>
     <version>${version}</version>
     <packaging>pom</packaging>
 
@@ -47,6 +47,15 @@
         <jetty-maven-plugin.version>9.3.10-SNAPSHOT</jetty-maven-plugin.version>
     </properties>
 
+
+    <modules>
+        <module>${projectTrigram}-dao</module>
+        <module>${projectTrigram}-domain</module>
+        <module>${projectTrigram}-service</module>
+        <module>${projectTrigram}-web-app</module>
+        <module>${projectTrigram}-web-war</module>
+    </modules>
+
     <build>
         <plugins>
             <plugin>
@@ -62,32 +71,27 @@
             <!-- Projects -->
             <dependency>
                 <groupId>${groupId}</groupId>
-                <artifactId>app-commons</artifactId>
+                <artifactId>${projectTrigram}-dao</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${groupId}</groupId>
-                <artifactId>app-web-app</artifactId>
+                <artifactId>${projectTrigram}-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${groupId}</groupId>
-                <artifactId>app-web-war</artifactId>
+                <artifactId>${projectTrigram}-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${groupId}</groupId>
-                <artifactId>app-domain</artifactId>
+                <artifactId>${projectTrigram}-web-app</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${groupId}</groupId>
-                <artifactId>app-dao</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${groupId}</groupId>
-                <artifactId>app-service</artifactId>
+                <artifactId>${projectTrigram}-web-war</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -110,11 +114,15 @@
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.0.1</version>
             </dependency>
-
             <dependency>
                 <groupId>org.eclipse.persistence</groupId>
                 <artifactId>javax.persistence</artifactId>
                 <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>2.0</version>
             </dependency>
 
             <!-- CXF -->
