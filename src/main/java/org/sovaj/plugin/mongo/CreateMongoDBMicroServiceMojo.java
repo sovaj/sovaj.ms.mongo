@@ -116,9 +116,7 @@ public class CreateMongoDBMicroServiceMojo extends AbstractMojo {
 
                 FileInputStream inputFileInputStream = new FileInputStream(inputFile);
                 String finalFileName = fileName.substring(12).replaceAll("app-", projectTrigram + "-")
-                        .replace(projectTrigram + "-web-app", projectTrigram + "-web-ppp")
-                        .replaceAll("app", getFolderFromPackage())
-                        .replace(projectTrigram + "-web-ppp", projectTrigram + "-web-app");
+                        .replace("projectTrigram", getFolderFromPackage());
                 File outputFile = new File(outputFolder + File.separator + finalFileName);
                 new File(outputFile.getParent()).mkdirs();
                 getLog().info(outputFile.getAbsolutePath());
