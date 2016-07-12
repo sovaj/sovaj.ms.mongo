@@ -1,0 +1,120 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="unqualified" version="1.0.0"
+           xmlns="http://www.ypg.com/car/eventService/eventFiltering"
+           targetNamespace="http://www.ypg.com/car/eventService/eventFiltering">
+
+    <xs:element name="eventType" type="EventTypeRule"/>
+	
+    <xs:element name="eventFilteringRule" type="EventFilteringRule"/>
+    <xs:complexType name="EventFilteringRule">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="eventTypeRule" type="EventTypeRule"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="EventTypeRule">
+        <xs:sequence>
+            <xs:element minOccurs="1" maxOccurs="1" name="ruleName" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>A simple example product that is a forward purchase or sale of an underlying asset.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="1" name="targetObjectType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>This is to specify on which event object type this rule will applay (Example : CONTENT, ASSET, MERCHANT_PROPERTY, ...).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="1" maxOccurs="unbounded" name="newJmsHeaderType" type="xs:string">
+                <xs:annotation>
+                    <xs:documentation>This is where you select to whom this rule will send the event to(Example : DC-UBL, DC-YEXT, ...).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element minOccurs="0" maxOccurs="unbounded" name="rule" type="Rule">
+                <xs:annotation>
+                    <xs:documentation>The rules to apply to know if we should add this event the new jms header or not. All rule needs to be validated to add the header.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Rule">
+        <xs:choice>
+            <xs:element name="udacPolicy" type="UDACPolicy">
+                <xs:annotation>
+                    <xs:documentation>This is a policy based on the udac. This policy can be used only on ASSET object type.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="propertyPolicy" type="PropertyPolicy">
+                <xs:annotation>
+                    <xs:documentation>This is a policy based on the event property.</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+            <xs:element name="actionTypePolicy" type="ActionTypePolicy">
+                <xs:annotation>
+                    <xs:documentation>This is policy based on the object action (Example : CREATED, UPDATED, DELETED, ....).</xs:documentation>
+                </xs:annotation>
+            </xs:element>
+        </xs:choice>
+    </xs:complexType>
+
+    <xs:complexType abstract="true" name="AbstractPolicyType" />
+
+    <xs:complexType name="UDACPolicy">
+        <xs:annotation>
+            <xs:documentation>This is a policy based on the udac. This policy can be used only on ASSET object type.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="AbstractPolicyType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="unbounded" name="udac" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>The lis of valide udac for the policy. The event should have a udac within the list of valid udac</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:complexType name="PropertyPolicy">
+        <xs:annotation>
+            <xs:documentation>This is a policy based on the event property.</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="AbstractPolicyType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="name" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>The property to look for.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                    <xs:element minOccurs="1" maxOccurs="1" name="value" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>The property value related to the key to validate.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+
+    <xs:complexType name="ActionTypePolicy">
+        <xs:annotation>
+            <xs:documentation>This is policy based on the object action (Example : CREATED, UPDATED, DELETED, ....).</xs:documentation>
+        </xs:annotation>
+        <xs:complexContent>
+            <xs:extension base="AbstractPolicyType">
+                <xs:sequence>
+                    <xs:element minOccurs="1" maxOccurs="1" name="action" type="xs:string">
+                        <xs:annotation>
+                            <xs:documentation>The object action to validate.</xs:documentation>
+                        </xs:annotation>
+                    </xs:element>
+                </xs:sequence>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+
+</xs:schema>

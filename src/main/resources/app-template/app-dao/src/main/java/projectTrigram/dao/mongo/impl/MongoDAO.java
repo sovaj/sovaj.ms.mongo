@@ -3,6 +3,7 @@
 #set( $symbol_escape = '\' )
 package ${package}.dao.mongo.impl;
 
+import com.mongodb.WriteResult;
 import java.util.Date;
 import java.util.List;
 import ${package}.domain.BusinessObject;
@@ -25,8 +26,7 @@ public abstract class MongoDAO<T extends BusinessObject> {
 
     abstract public Class<T> getClazz();
 
-    public void create(T p) {
-        //TODO : Fixe audit in spring
+    public void add(T p) {
         p.setCreationDate(new Date());
         p.setUpdatedDate(new Date());
         this.mongoOps.insert(p, getCollection());
@@ -37,22 +37,15 @@ public abstract class MongoDAO<T extends BusinessObject> {
         return this.mongoOps.findOne(query, getClazz(), getCollection());
     }
 
-    public T getByExternalReferenceId(String id) {
-        Query query = new Query(Criteria.where("externalReferenceId").is(id));
-        return this.mongoOps.findOne(query, getClazz(), getCollection());
-    }
-
-    public void update(T p) {
-        //TODO : Fixe audit in spring
+    public void update(T p) {   
         p.setUpdatedDate(new Date());
         this.mongoOps.save(p, getCollection());
     }
 
-    public int deleteDocumentById(String id) {
-//        Query query = new Query(Criteria.where("_id").is(id));
-//        WriteResult result = this.mongoOps.remove(query, clazz, collection);
-//        return result.getN();
-        return -1;
+    public int deleteById(String id) {
+        Query query = new Query(Criteria.where("_id").is(id));
+        WriteResult result = this.mongoOps.remove(query, getClazz(), getCollection());
+        return result.getN();
     }
 
     public List<T> list() {

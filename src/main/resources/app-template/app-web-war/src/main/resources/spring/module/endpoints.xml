@@ -34,9 +34,9 @@
         <property name="mapper" ref="jsonmapper"/>
     </bean>
 
-    <jaxrs:server id="PluginResources" address="/plugin">
+    <jaxrs:server id="${resourceToManage}Resources" address="/${_resourceToManage}">
         <jaxrs:serviceBeans>
-            <bean class="${package}.web.app.ws.rest.api.PluginResources"/>
+            <bean class="${package}.ws.rest.api.${resourceToManage}Resources"/>
         </jaxrs:serviceBeans>
         <jaxrs:providers>
             <ref bean="jaxbJsonProvider"/>
