@@ -74,4 +74,5 @@ public class ClassDescriptor {
     public static void main(String[] args) {
 //        describe(EventTypeRule.class, new String[]{"BusinessObject"}, new String[0]);
     }
+    
 }

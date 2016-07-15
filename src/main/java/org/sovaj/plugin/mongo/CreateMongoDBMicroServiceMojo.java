@@ -76,7 +76,7 @@ public class CreateMongoDBMicroServiceMojo extends AbstractMojo {
 
             retrieveProjectInformation();
             String outputFolder = createProjectFolder();
-//            copyXSD(outputFolder);
+            copyContract(outputFolder);
             buildDomainObject(outputFolder);
             buildBaseProject(outputFolder);
             writeSOVAJFile(outputFolder);
@@ -187,109 +187,20 @@ public class CreateMongoDBMicroServiceMojo extends AbstractMojo {
         }
     }
 
-//    private void copyXSD(String outputDir) throws IOException {
-//        FileUtils.copyFileToDirectory(xsdFile, new File(outputDir + "/"
-//                + projectTrigram
-//                + "-domain/src/main/resources/schemas/xsd/"));
-//    }
+    private void copyContract(String outputDir) throws IOException {
+        File xsdFolder = new File(outputDir + "/"
+                + projectTrigram
+                + "-domain/src/main/resources/schemas/xsd");
+        xsdFolder.mkdirs();
+        File jsonSchemaFolder = new File(outputDir + "/"
+                + projectTrigram
+                + "-domain/src/main/resources/schemas/jsonschema");
+        jsonSchemaFolder.mkdirs();
+        FileUtils.copyFileToDirectory(xsdFile, xsdFolder);
+    }
 
     private void buildDomainObject(String outputDir) throws IOException, PrompterException {
-        // Configure sources & output
-        String schemaPath = xsdFile.getAbsolutePath();
-        String outputDirectory = outputDir + "/app-template/"
-                + "app-domain/target/generated-sources/cxf";
-
-        File generatedFiles = new File(outputDirectory);
-        generatedFiles.mkdirs();
-        // Setup schema compiler
-        SchemaCompiler sc = XJC.createSchemaCompiler();
-        final String generatedFilePakage = projectGroupId + "." + projectTrigram + ".jaxb";
-        final String domainFilePakage = projectGroupId + "." + projectTrigram + ".domain";
-        sc.forcePackageName(generatedFilePakage);
-
-        // Setup SAX InputSource
-        File schemaFile = new File(schemaPath);
-        InputSource is = new InputSource(new FileInputStream(schemaFile));
-        is.setSystemId(schemaFile.toURI().toString());
-
-        // Parse & build
-        sc.parseSchema(is);
-        S2JJAXBModel model = sc.bind();
-        JCodeModel jCodeModel = model.generateCode(null, null);
-        jCodeModel.build(new File(outputDirectory));
-
-        for (File generatedFile : new File(outputDirectory + "/" + getFolderFromPackage(generatedFilePakage)).listFiles()) {
-            String fileName = generatedFile.getName();
-            if (!fileName.equals("ObjectFactory.java")
-                    && !fileName.equals("package-info.java")) {
-                File domainObjectFile = new File(outputDir + "/"
-                        + projectTrigram
-                        + "-domain/src/main/java/" + getFolderFromPackage() + "/domain/" + fileName);
-                domainObjectFile.getParentFile().mkdirs();
-                FileWriter domainObjectFileWriter = new FileWriter(domainObjectFile);
-                try (BufferedReader br = new BufferedReader(new FileReader(generatedFile))) {
-                    boolean onClassDefintionLine = false;
-                    boolean businessObjectAdded = false;
-                    boolean extendsClass = false;
-                    boolean itIsAClass = false;
-                    boolean passedClassDefinitionLine = false;
-                    for (String line; (line = br.readLine()) != null;) {
-                        if (line.trim().startsWith("import javax.xml.bind.annotation")) {
-                            continue;
-                        }
-                        if (!onClassDefintionLine) {
-                            onClassDefintionLine = line.trim().startsWith("public");
-                            itIsAClass = line.contains("class");
-                            if (onClassDefintionLine) {
-                                domainObjectFileWriter.write("\n");
-                            }
-                        }
-                        if (onClassDefintionLine) {
-                            extendsClass = extendsClass || line.contains("extends");
-                            if (line.contains("{")) {
-                                if (itIsAClass && !extendsClass) {
-                                    line = line.replace("{", "extends BusinessObject {");
-                                    businessObjectAdded = true;
-                                }
-                                onClassDefintionLine = false;
-                                passedClassDefinitionLine = true;
-                            }
-                        }
-                        if (!passedClassDefinitionLine) {
-                            if (!line.trim().startsWith("import")
-                                    && !line.trim().startsWith("package")
-                                    && !onClassDefintionLine) {
-                                continue;
-                            }
-                        }
-
-                        if (line.trim().startsWith("@")) {
-                            continue;
-                        }
-                        line = line.replace(generatedFilePakage, domainFilePakage);
-                        domainObjectFileWriter.write(line);
-                        domainObjectFileWriter.write("\n");
-                    }
-                    domainObjectFileWriter.flush();
-                }
-            }
-        }
-
-        // String to be scanned to find the pattern.
-        String line = new String(Files.readAllBytes(xsdFile.toPath()));
-        String pattern = "<.*:element name=\".*\" type=\"(.*)\"/>";
-
-        // Create a Pattern object
-        Pattern r = Pattern.compile(pattern);
-
-        // Now create matcher object.
-        Matcher m = r.matcher(line);
-        List<String> possibleResources = new ArrayList();
-        while (m.find()) {
-            possibleResources.add(m.group(1));
-        }
-        resourceToManage = prompter.prompt("Please select the resource to manage", possibleResources);
-
+        resourceToManage = new XSDToDomainClassBuilder(xsdFile, projectGroupId, projectTrigram, prompter, projectPackage).buildDomainObject(outputDir);
     }
 
     private void writeSOVAJFile(String outputFolder) throws IOException {
